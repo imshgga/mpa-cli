@@ -1,0 +1,23 @@
+{
+  "name": "@shgga/mpa-cli",
+  "version": "1.0.1",
+  "description": "A commander tools for MPA-for-vue",
+  "bin": {
+    "mpa": "index.js"
+  },
+  "scripts": {
+    "start": "node index.js init hello-word"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.19.0",
+    "download-git-repo": "^1.1.0",
+    "handlebars": "^4.0.12",
+    "inquirer": "^6.2.0",
+    "log-symbols": "^2.2.0",
+    "ora": "^3.0.0"
+  }
+}
