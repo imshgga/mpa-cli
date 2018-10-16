@@ -6,7 +6,7 @@
     "mpa": "index.js"
   },
   "scripts": {
-    "start": "node index.js init hello-word"
+    "start": "node index.js init hello-word -j"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,7 @@
     "handlebars": "^4.0.12",
     "inquirer": "^6.2.0",
     "log-symbols": "^2.2.0",
-    "ora": "^3.0.0"
+    "ora": "^3.0.0",
+    "tar": "^4.4.6"
   }
 }

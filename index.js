@@ -15,7 +15,6 @@ inquirer.prompt([
     message: '是否在当前目录下建立模板',
     type: 'confirm'
   }
-
 ]).then(({currentDir}) => {
   if (!currentDir) return
 
@@ -34,61 +33,56 @@ inquirer.prompt([
       type: 'list',
       choices: [ "pc", "mobile" ]
     }
-
   ]).then(({author, description, platform}) => {
-    console.log(author, '  ', description, '  ', platform)
-
     program.version('1.0.0', "-v, --version")
       .command('init <name>')
-      .action(name => {
+      .option('-j, --JDer', '是否下载京东内部模板')
+      .action((name, cmd) => {
+        let downloadUrl = cmd.JDer ?
+          'direct:http://minner.jr.jd.com/spe/mpa-templete/dist/mpa.zip' :
+          'imshgga/MPA-for-vue'
+
         if(!fs.existsSync(name)) {
           spinner.start()
-          download('imshgga/MPA-for-vue', name, {clone: true}, error => {
-            {
-              const meta = {
-                name,
-                author,
-                description
+
+          download(downloadUrl, name, error => {
+            try {
+              {
+                const meta = {
+                  name,
+                  author,
+                  description
+                }
+                const filename = `${name}/package.json`
+                const content = fs.readFileSync(filename).toString()
+                const result = handlebars.compile(content)(meta)
+                fs.writeFileSync(filename, result)
               }
-              const filename = `${name}/package.json`
-              const content = fs.readFileSync(filename).toString()
-              const result = handlebars.compile(content)(meta)
-              fs.writeFileSync(filename, result)
-            }
 
-            {
-              fs.renameSync(`${name}/.postcssrc.${platform}.js`, `${name}/.postcssrc.js`)
-              fs.renameSync(`${name}/index.${platform}.html`, `${name}/index.html`)
+              {
+                fs.renameSync(`${name}/.postcssrc.${platform}.js`, `${name}/.postcssrc.js`)
+                fs.renameSync(`${name}/index.${platform}.html`, `${name}/index.html`)
 
-              let unlink = platform === 'pc' ? 'mobile' : 'pc'
-              fs.unlink(`${name}/.postcssrc.${unlink}.js`, error => {
-                if (error) throw error
-              })
-              fs.unlink(`${name}/index.${unlink}.html`, error => {
-                if (error) throw error
-              })
-            }
+                let unlink = platform === 'pc' ? 'mobile' : 'pc'
+                fs.unlink(`${name}/.postcssrc.${unlink}.js`, error => {
+                  if (error) throw error
+                })
+                fs.unlink(`${name}/index.${unlink}.html`, error => {
+                  if (error) throw error
+                })
+              }
 
-            if (error) {
-              spinner.fail()
-
-              console.log(symbols.error, chalk.red('项目创建失败'))
-            } else {
-              spinner.succeed()
-
-              console.log(symbols.success, chalk.green('项目创建成功'))
-              console.log(`
-    To get start
-
-        cd ${name}
-        npm install
-        npm start
-
-    and then open
-        http://0.0.0.0:8080/withTemplate.html
-    or
-        http://0.0.0.0:8080/withoutTemplate.html
-              `)
+              if (error) {
+                spinner.fail()
+                console.log(symbols.error, chalk.red('项目创建失败'))
+              } else {
+                spinner.succeed()
+                console.log(symbols.success, chalk.green('项目创建成功'))
+                console.log(require('./str.js')(name))
+              }
+            } catch (e) {
+              console.log(JSON.stringify(e))
+              spinner.stop()
             }
           })
         } else {
