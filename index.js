@@ -34,7 +34,7 @@ inquirer.prompt([
       choices: [ "pc", "mobile" ]
     }
   ]).then(({author, description, platform}) => {
-    program.version('1.0.0', "-v, --version")
+    program.version('1.0.2', "-v, --version")
       .command('init <name>')
       .option('-j, --JDer', '是否下载京东内部模板')
       .action((name, cmd) => {

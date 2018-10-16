@@ -35,6 +35,10 @@ src下pages文件夹里面一个js文件会打包成一个独立的页面,页面
 
 static文件夹下资源会拷贝到dist/static下
 
+## ChangeLog
+
++ 添加京东人专属模板.(需内网使用)
+
 ## License
 
 MIT
