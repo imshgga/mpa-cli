@@ -10,6 +10,9 @@
 npm install @shgga/mpa-cli -g
 
 mpa init project-name
+
+// For JDer
+mpa init project-name -j
 ```
 
 ## Features
