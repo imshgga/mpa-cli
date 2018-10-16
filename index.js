@@ -46,6 +46,12 @@ inquirer.prompt([
           spinner.start()
 
           download(downloadUrl, name, error => {
+            if (error) {
+              spinner.fail()
+              console.log(symbols.error, chalk.red('项目创建失败'))
+              return
+            }
+
             try {
               {
                 const meta = {
@@ -53,10 +59,9 @@ inquirer.prompt([
                   author,
                   description
                 }
-                const filename = `${name}/package.json`
-                const content = fs.readFileSync(filename).toString()
+                const content = fs.readFileSync(`${name}/package.temp.json`).toString()
                 const result = handlebars.compile(content)(meta)
-                fs.writeFileSync(filename, result)
+                fs.writeFileSync(`${name}/package.json`, result)
               }
 
               {
@@ -71,15 +76,9 @@ inquirer.prompt([
                   if (error) throw error
                 })
               }
-
-              if (error) {
-                spinner.fail()
-                console.log(symbols.error, chalk.red('项目创建失败'))
-              } else {
-                spinner.succeed()
-                console.log(symbols.success, chalk.green('项目创建成功'))
-                console.log(require('./str.js')(name))
-              }
+              spinner.succeed()
+              console.log(symbols.success, chalk.green('项目创建成功'))
+              console.log(require('./str.js')(name))
             } catch (e) {
               console.log(JSON.stringify(e))
               spinner.stop()
