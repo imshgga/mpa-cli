@@ -37,6 +37,11 @@ static文件夹下资源会拷贝到dist/static下
 
 ## ChangeLog
 
+##### v1.04
++ fixed 模板下载的问题
+
+-----
+
 ##### v1.03
 + fixed 京东专属模板下载的问题
 

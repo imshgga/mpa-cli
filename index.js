@@ -42,7 +42,11 @@ inquirer.prompt([
           'http://minner.jr.jd.com/spe/mpa-templete/dist/mpaa.tar' :
           'https://github.com/imshgga/MPA-for-vue/archive/master.zip'
 
-        download(url, name, { extract: true, mode: '666'}).then((data) => {
+        let options = cmd.JDer ?
+          { extract: true, mode: '666'} :
+          { extract: true, strip: 1, mode: '666'}
+
+        download(url, name, options).then((data) => {
           try {
             {
               const meta = {
@@ -73,7 +77,7 @@ inquirer.prompt([
 
             spinner.succeed()
             console.log(symbols.success, chalk.green('项目创建成功'))
-            console.log(require('./tips.js')(name))
+            console.log(tips(name))
           } catch (e) {
             console.log(JSON.stringify(e))
             spinner.stop()
@@ -87,3 +91,18 @@ inquirer.prompt([
     program.parse(process.argv)
   })
 })
+
+function tips (name) {
+  return `
+      To get start
+
+      cd ${name}
+      npm install
+      npm start
+
+      and then open
+      http://0.0.0.0:8080/withTemplate.html
+      or
+      http://0.0.0.0:8080/withoutTemplate.html
+  `
+}

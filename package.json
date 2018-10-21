@@ -1,12 +1,12 @@
 {
   "name": "@shgga/mpa-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A commander tools for MPA-for-vue",
   "bin": {
     "mpa": "index.js"
   },
   "scripts": {
-    "start": "rm -rf ./hello-word && node index.js init hello-word -j"
+    "start": "rm -rf ./hello-word && node index.js init hello-word"
   },
   "files": [
     "index.js"
